@@ -4,11 +4,11 @@ function newPic = gausfft(pic,t)
     [X, Y] = meshgrid(ceil(-size(pic,1)/2):1:(floor(size(pic,1)/2)-xRaise), ceil(-size(pic,2)/2):1:(floor(size(pic,2)/2))-yRaise);
     
     gauss = (1/(2*pi*t))*exp(-(X.^2 + Y.^2)/(2*t));
-    ftFilter = fftshift(fft2(gauss));
-    ftPic = fftshift(fft2(pic));
+    ftFilter = fft2(gauss);
+    ftPic = fft2(pic);
     
     ftfiltered = ftPic.*ftFilter;
     
-    newPic = ifft(ftfiltered);
+    newPic = fftshift(ifft2(ftfiltered));
 end
 
