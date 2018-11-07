@@ -1,4 +1,4 @@
-function newPic = gausfft(pic,t)
+function newPic = gaussfft(pic,t)
     xRaise = mod(mod(size(pic,1),2) + 1,2);
     yRaise = mod(mod(size(pic,2),2) + 1,2);
     [X, Y] = meshgrid(ceil(-size(pic,1)/2):1:(floor(size(pic,1)/2)-xRaise), ceil(-size(pic,2)/2):1:(floor(size(pic,2)/2))-yRaise);
