@@ -10,7 +10,8 @@ function  fftwave(u,v, sz)
     
     F = ifft2(Fhat);
     Fabsmax = max(abs(F(:)));
-
+    figure();
+    
     subplot(3,2,1);
     showgrey(Fhat);
     title(sprintf('Fhat: (u,v) = (%d, %d)', u,v));
@@ -30,7 +31,7 @@ function  fftwave(u,v, sz)
     end
     
     wavelength = 1/sqrt(uc*uc + vc*vc); %Replaced 
-    amplitude = abs(Fhat(u,v)/sz); %Replaced
+    amplitude = abs(Fhat(u,v)/(sz^2)); %Replaced
 
     subplot(3,2,2);
     showgrey(fftshift(Fhat));

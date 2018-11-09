@@ -13,10 +13,14 @@ function subsample(img, func1, func2)
         end
         subplot(3,N,i);
         showgrey(img);
+        title("No filter");
         subplot(3,N,i+N);
         showgrey(smoothimg1);
+        title("Gaussian filter");
         subplot(3,N,i+2*N);
+       
         showgrey(smoothimg2);
+        title("Low-pass filter");
     end
 
 end
