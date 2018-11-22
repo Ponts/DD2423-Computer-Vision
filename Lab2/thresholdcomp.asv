@@ -1,0 +1,9 @@
+function thresholdcomp(image, thresholds)
+    gradmags = Lv(image);
+    figure()
+    for c = 1:length(thresholds)
+        subplot(2,2,c);
+        showgrey(image)
+    end
+end
+
