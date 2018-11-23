@@ -17,7 +17,7 @@ while trypointer <= insize,
   polylength = curves(2, trypointer);
 
   plot(curves(1, (trypointer+1):(trypointer+polylength)), ...
-       curves(2, (trypointer+1):(trypointer+polylength)));
+       curves(2, (trypointer+1):(trypointer+polylength)),'color','blue');
 
   trypointer = trypointer + 1 + polylength;
 end;
