@@ -13,6 +13,6 @@ function curves = extractedge(inpic, scale, threshold, shape)
     
     curves = zerocrosscurves(Lvv, (Lvvv<0)-0.5);
     curves = thresholdcurves(curves, mags-threshold);
-    
+
 end
 
