@@ -15,11 +15,12 @@ function [linepar,acc] = houghline(curves, magnitude, nrho, ntheta, threshold, n
            x = curves(2,trypointer);
            y = curves(1,trypointer);
            % Why do we use another threshold
+           
            for th = 1:ntheta
                rho = x*cos(thetas(th)) + y*sin(thetas(th));
                rhoIndex = int64(((rho+rhoMax)/(2*rhoMax))*nrho);
                %disp(rhoIndex);
-               acc(rhoIndex, th) = acc(rhoIndex, th)+1;%magnitude(int64(x),int64(y));
+               acc(rhoIndex, th) = acc(rhoIndex, th)+magnitude(int64(x),int64(y));
            end
            trypointer = trypointer + 1;
         end
