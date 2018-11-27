@@ -3,14 +3,18 @@ function [linepar, acc] = houghedgeline(pic, scale, gradmagnthreshold, nrho, nth
     mag = Lv(smoothed);
     curves = extractedge(pic,scale,gradmagnthreshold);
     [linepar, acc] = houghline(curves,mag,nrho,ntheta,gradmagnthreshold,nlines,verbose);
-    rhoMax = sqrt(power(size(pic,1),2) + power(size(pic,2),2));
     subplot(1,3,1);
     showgrey(pic);
     subplot(1,3,2);
     showgrey(flip(acc));
+    for i = 1:size(linepar,2)
+        theta = linepar(4,i);
+        rho = linepar(3,i);
+        rho = nrho - rho;
+        text(theta, rho, 'o', 'color','red');
+    end
     subplot(1,3,3);
     drawLines(linepar,pic);
-    %axis([-pi/2, pi/2, -rhoMax, rhoMax])
     
 end
 
