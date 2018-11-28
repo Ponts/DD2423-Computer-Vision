@@ -1,5 +1,5 @@
 function thresholdcomp(image, thresholds)
-    smoothed = discgaussfft(image,3);
+    smoothed = discgaussfft(image,1);
     gradmags = Lv(smoothed);
     figure()
     sq = ceil(sqrt(length(thresholds)));

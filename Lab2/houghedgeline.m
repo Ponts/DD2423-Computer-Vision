@@ -6,11 +6,10 @@ function [linepar, acc] = houghedgeline(pic, scale, gradmagnthreshold, nrho, nth
     subplot(1,3,1);
     showgrey(pic);
     subplot(1,3,2);
-    showgrey(flip(acc));
+    showgrey(acc);
     for i = 1:size(linepar,2)
         theta = linepar(4,i);
         rho = linepar(3,i);
-        rho = nrho - rho;
         text(theta, rho, 'o', 'color','red');
     end
     subplot(1,3,3);
