@@ -14,8 +14,8 @@ I = imfilter(I, h);
 segm = mean_shift_segm(I, spatial_bandwidth, colour_bandwidth, num_iterations);
 Inew = mean_segments(Iback, segm);
 I = overlay_bounds(Iback, segm);
-imwrite(Inew,'result/meanshift1.png')
-imwrite(I,'result/meanshift2.png')
+imwrite(Inew,'bildat_lab3/result/meanshift1.png')
+imwrite(I,'bildat_lab3/result/meanshift2.png')
 subplot(1,2,1); imshow(Inew);
 subplot(1,2,2); imshow(I);
 

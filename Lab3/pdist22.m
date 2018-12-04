@@ -1,4 +1,4 @@
-function dist = pdist2(a, b)
+function dist = pdist22(a, b)
     if (size(a) ~= size(b))
        error('Dimension mismatch'); 
     end
@@ -8,4 +8,3 @@ function dist = pdist2(a, b)
     end
     dist = sqrt(sum);
 end
-
