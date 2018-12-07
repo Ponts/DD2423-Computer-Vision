@@ -15,7 +15,7 @@ dx = imfilter(grey, h/4);
 dy = imfilter(grey, h/4');
 grad = sqrt(dx.^2 + dy.^2);
 edge = (alpha*sigma)*ones(size(grey)) ./ (grad + sigma);
-
+rng(172312);
 tic
 for l=1:3
 
