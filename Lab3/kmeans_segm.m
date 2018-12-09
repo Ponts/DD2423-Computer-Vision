@@ -2,10 +2,10 @@ function [segmentation, centers] = kmeans_segm(image, K, L, seed)
     if nargin < 3
         seed = 1337; 
     end
-    threshold = 0;%100.0;
+    threshold = 0.0;
     rng(seed);
     [rows, cols, channels] = size(image);
-    imgvec = reshape(image, rows*cols, channels);
+    imgvec = double(reshape(image, rows*cols, channels));
     [colors, ~, ~] = unique(imgvec', 'rows');
     colors = colors';
     [colorsLen, ~] = size(colors);
@@ -18,7 +18,6 @@ function [segmentation, centers] = kmeans_segm(image, K, L, seed)
        %fprintf("%d, %d, %d, \n", new);
        if checkDistance(new, centers(1:i-1,:), threshold)
            centers(i,:) = new;
-           
            i = i + 1;
        end
        iters = iters + 1;
@@ -33,7 +32,7 @@ function [segmentation, centers] = kmeans_segm(image, K, L, seed)
         clusterCounters = zeros(K, 1);
         % Assign pixel to cluster
         for p = 1:length(imgvec)
-            index = assignPixel(imgvec(p), centers);
+            index = assignPixel(imgvec(p,:), centers);
             clusterSums(index,:) = clusterSums(index,:) + double(imgvec(p,:));
             clusterCounters(index) = clusterCounters(index) + 1;
             if segmentation(p) ~= index
@@ -66,18 +65,19 @@ function [segmentation, centers] = kmeans_segm(image, K, L, seed)
         end
     end
     for p = 1:length(imgvec)
-        segmentation(p) = assignPixel(imgvec(p), centers);
+        segmentation(p) = assignPixel(imgvec(p,:), centers);
     end
     %plot(changes(1:terminationI));
     segmentation = reshape(segmentation, rows, cols);
 end
 
 function index = assignPixel(pixel, clusters)
-    distance = pdist22(pixel, clusters(1));
+    distance = pdist22(pixel, clusters(1,:));
     index = 1;
+    
     [rows, ~] = size(clusters);
     for i = 2:rows
-        newDist = pdist22(pixel, clusters(i));
+        newDist = pdist22(pixel, clusters(i,:));
         if  newDist < distance
            index = i;
            distance = newDist;

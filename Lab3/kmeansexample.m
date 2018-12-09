@@ -1,10 +1,8 @@
-K = 6;               % number of clusters used
-L = 40;              % number of iterations
-seed = 13;            % seed used for random initialization
-scale_factor = 1.0;  % image downscale factor
-image_sigma = 1.0;   % image preblurring scale
+function kmeansexample(K, L, seed, scale_factor, image_sigma, image)
 
-I = imread('orange.jpg');
+
+
+I = imread(image);
 I = imresize(I, scale_factor);
 Iback = I;
 d = 2*ceil(image_sigma*2) + 1;
@@ -18,4 +16,4 @@ Inew = mean_segments(Iback, segm);
 I = overlay_bounds(Iback, segm);
 imwrite(Inew,'bildat_lab3/result/kmeans1.png')
 imwrite(I,'bildat_lab3/result/kmeans2.png')
-
+end
