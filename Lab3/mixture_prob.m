@@ -1,7 +1,7 @@
 function prob = mixture_prob(image, K, L, mask)
     [col, row, channels] = size(image);
-    Ivec = single(reshape(image, col*row, channels));
-    Mvec = single(reshape(mask, col*row, 1));
+    Ivec = double(reshape(image, col*row, channels));
+    Mvec = double(reshape(mask, col*row, 1));
     %I = image .* repmat(mask, [1,1,3]);
     %I = uint8(bsxfun(@times, Ivec, cast(Mvec,class(Ivec))));
     %imshow(reshape(I, col,row,channels));
@@ -31,7 +31,7 @@ function prob = mixture_prob(image, K, L, mask)
     for l = 1:L
         %calculate g
         for k = 1:K
-            g(k,:) = mvnpdf(IvecMasked,u(k,:),cov{k});
+            g(k,:) = max(mvnpdf(IvecMasked,u(k,:),cov{k}), 1e-200);
         end
         %calculate p
         lowerSum = w' * g;
@@ -42,39 +42,19 @@ function prob = mixture_prob(image, K, L, mask)
         w = mean(p,2);
         %calculate mean
         lowerSum = sum(p,2);
-        %lowerSum(lowerSum == 0) = 0.00001;
         u =  (p * IvecMasked) ./ repmat(lowerSum, [1,channels]);
         %calculate cov
         for k = 1:K
-            cov{k} = zeros(channels,channels);
-            for i = 1:N
-                diff = IvecMasked(i,:) - u(k,:);
-                diff = (p(k,i).*(diff' * diff));
-                cov{k} = cov{k} + diff;
-            end
-            cov{k} = cov{k} ./ lowerSum(k);
-           %disp(cov{k});
-           %diff = I - repmat(u(k,:), [col*row,1]);
-           %diff = bsxfun(@minus, I, u(k,:));
-           %left = bsxfun(@times, p(k,:)', diff);
-           %left = left' * diff;
-           %disp(size(lowerSum(k)));
-           %cov{k} = left ./ lowerSum(k);
+            diff = bsxfun(@minus, IvecMasked, u(k,:));
+            base = (repmat(p(k,:),channels,1)'.*diff)'*diff;
+            cov{k} = base/(lowerSum(k));
         end        
     end
     g = zeros(K, col*row);
     for k = 1:K
         g(k,:) = mvnpdf(Ivec,u(k,:),cov{k});
     end
-    %fprintf("Ws: ");
-    %disp(w);
-    %fprintf("Us: ");
-    %disp(uint8(u));
-    prob = sum(repmat(w, [1,col*row]) .* g, 1);
-    
-    
-    %prob = uint8(reshape(I, col, row, channels));
-    
-    
+
+    prob = sum(repmat(w, [1,col*row]) .* g, 1);   
 end
 
